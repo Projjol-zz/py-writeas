@@ -40,6 +40,74 @@ class User:
                 self.access_token = None
                 return "Successfully logged out"
             else:
-                raise(req.json()['error_msg'])
+                return (req.json()['error_msg'])
+        else:
+            raise('There is no access token available for this user')
+
+    def retreive(self):
+        if self.access_token:
+            headers = {
+                'Authorization': 'Token {access_token}'.format(access_token = self.access_token),
+                'Content-Type': 'application/json'
+            }
+            req = requests.get(self.url + 'me', headers=headers)
+            if req.status_code == 200:
+                return req.json()['data']
+            else:
+                if req.headers['content-type'].split(';')[0] == 'application/json':
+                    return(req.json()['error_msg'])
+                else:
+                    return(req.content)
+        else:
+            raise('There is no access token available for this user')
+
+    def posts(self):
+        if self.access_token:
+            headers = {
+                'Authorization': 'Token {access_token}'.format(access_token = self.access_token),
+                'Content-Type': 'application/json'
+            }
+            req = requests.get(self.url + 'me/posts', headers=headers)
+            if req.status_code == 200:
+                return req.json()['data']
+            else:
+                if req.headers['content-type'].split(';')[0] == 'application/json':
+                    return(req.json()['error_msg'])
+                else:
+                    return(req.content)
+        else:
+            raise('There is no access token available for this user')
+
+    def collections(self):
+        if self.access_token:
+            headers = {
+                'Authorization': 'Token {access_token}'.format(access_token = self.access_token),
+                'Content-Type': 'application/json'
+            }
+            req = requests.get(self.url + 'me/collections', headers=headers)
+            if req.status_code == 200:
+                return req.json()['data']
+            else:
+                if req.headers['content-type'].split(';')[0] == 'application/json':
+                    return(req.json()['error_msg'])
+                else:
+                    return(req.content)
+        else:
+            raise('There is no access token available for this user')
+
+    def channels(self):
+        if self.access_token:
+            headers = {
+                'Authorization': 'Token {access_token}'.format(access_token = self.access_token),
+                'Content-Type': 'application/json'
+            }
+            req = requests.get(self.url + 'me/channels', headers=headers)
+            if req.status_code == 200:
+                return req.json()['data']
+            else:
+                if req.headers['content-type'].split(';')[0] == 'application/json':
+                    return(req.json()['error_msg'])
+                else:
+                    return(req.content)
         else:
             raise('There is no access token available for this user')
